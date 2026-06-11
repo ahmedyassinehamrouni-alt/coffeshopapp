@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_strings.dart';
+import '../../../core/constants/dev_config.dart';
 import '../../../core/errors/app_exception.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../repositories/offline_auth_repository.dart';
 import '../widgets/auth_error_banner.dart';
 import '../widgets/auth_text_field.dart';
 
@@ -179,6 +181,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                 ),
                               ),
                               const SizedBox(height: 20),
+
+                              // ── Offline test accounts ──────────────────────
+                              if (kOfflineMode) ...[
+                                _OfflineCredentialPicker(
+                                  onSelect: (cred) {
+                                    _emailCtrl.text = cred.email;
+                                    _passwordCtrl.text = cred.password;
+                                    setState(() => _errorMessage = null);
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                              ],
 
                               // Sign In button
                               ElevatedButton(
@@ -377,6 +391,87 @@ class _BrandHeader extends StatelessWidget {
           style: AppTextStyles.bodyMedium.copyWith(
             color: Colors.white.withOpacity(0.5),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Offline test-credential picker ───────────────────────────────────────────
+
+class _OfflineCredentialPicker extends StatelessWidget {
+  const _OfflineCredentialPicker({required this.onSelect});
+
+  final void Function(OfflineTestCredential cred) onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final creds = offlineTestCredentials;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 6,
+              height: 6,
+              decoration: const BoxDecoration(
+                color: Color(0xFFFF9800),
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              'TEST MODE — quick fill',
+              style: AppTextStyles.labelSmall.copyWith(
+                color: const Color(0xFFFF9800),
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.8,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: creds.map((cred) {
+            return InkWell(
+              onTap: () => onSelect(cred),
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF3E0),
+                  border: Border.all(color: const Color(0xFFFF9800), width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      cred.role.displayName,
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: const Color(0xFFE65100),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 11,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      cred.email,
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.textSecondary,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ],
     );

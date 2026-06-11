@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../core/constants/dev_config.dart';
 import '../core/constants/firestore_paths.dart';
 import '../core/errors/app_exception.dart';
 import '../models/staff_model.dart';
+import 'offline_auth_repository.dart';
 
 part 'auth_repository.g.dart';
 
@@ -237,4 +239,4 @@ class FirebaseAuthRepository implements AuthRepository {
 
 @riverpod
 AuthRepository authRepository(AuthRepositoryRef ref) =>
-    FirebaseAuthRepository();
+    kOfflineMode ? OfflineAuthRepository() : FirebaseAuthRepository();
