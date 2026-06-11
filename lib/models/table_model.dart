@@ -82,6 +82,7 @@ enum TableSection {
 
 @freezed
 abstract class TableModel with _$TableModel {
+  const TableModel._();
   const factory TableModel({
     required String id,
     required int number,

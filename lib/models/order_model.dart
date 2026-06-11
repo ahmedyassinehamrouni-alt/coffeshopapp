@@ -74,6 +74,7 @@ enum OrderStatus {
 
 @freezed
 abstract class OrderItem with _$OrderItem {
+  const OrderItem._();
   const factory OrderItem({
     required String menuItemId,
     required String name,         // denormalised — snapshot of menu item name
@@ -113,6 +114,7 @@ extension OrderItemX on OrderItem {
 
 @freezed
 abstract class OrderModel with _$OrderModel {
+  const OrderModel._();
   const factory OrderModel({
     required String id,
     required String tableId,

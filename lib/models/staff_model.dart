@@ -26,6 +26,7 @@ enum StaffRole {
 
 @freezed
 abstract class StaffModel with _$StaffModel {
+  const StaffModel._();
   const factory StaffModel({
     required String id,
     required String name,

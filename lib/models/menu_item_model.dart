@@ -40,6 +40,7 @@ enum MenuCategory {
 
 @freezed
 abstract class MenuItemModel with _$MenuItemModel {
+  const MenuItemModel._();
   const factory MenuItemModel({
     required String id,
     required String name,

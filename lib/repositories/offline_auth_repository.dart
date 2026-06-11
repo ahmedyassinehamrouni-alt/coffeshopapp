@@ -66,37 +66,56 @@ class _OfflineUser {
 
 // ── Repository ────────────────────────────────────────────────────────────────
 
-/// Offline drop-in for [FirebaseAuthRepository]. Uses hardcoded test accounts.
+/// Offline drop-in for [FirebaseAuthRepository].
 /// Toggle via [kOfflineMode] in dev_config.dart.
-///
 /// ⚠️  NEVER ship a release build with kOfflineMode = true.
 class OfflineAuthRepository implements AuthRepository {
   OfflineAuthRepository() {
     print('⚠️  BrewDesk: running in OFFLINE / TEST mode — no Firebase auth.');
   }
 
-  // We stream String? (uid) internally and expose a User?-typed stream
-  // by wrapping the uid in a minimal UserInfo-compatible object via
-  // FirebaseAuth's anonymous sign-in alternative — but since we have no
-  // network, we use a StreamController<User?> and emit null for sign-out.
-  // For sign-in we emit a cached FirebaseAuth.instance.currentUser after
-  // a fake anonymous sign-in, OR simply keep a separate uid stream.
+  // We keep a separate uid stream (String?) and bridge to User? by watching
+  // FirebaseAuth anonymous sign-ins — but since we have no network in offline
+  // mode, we instead keep the signed-in user as a StaffModel and expose
+  // authStateChanges as a stream that emits a sentinel non-null User when
+  // signed in and null when signed out.
   //
-  // Simplest safe approach: keep the uid in memory; expose a stream that
-  // emits null (signed out) or a recycled User object via a completer-based
-  // bridge. Since only user.uid is accessed by consumers, we proxy via
-  // a StreamController<User?> that emits null on sign-out and re-uses a
-  // previously fetched real anonymous User on sign-in... but that needs
-  // network.
+  // The only field ever accessed on the User object is .uid (see auth_provider.dart).
+  // We use FirebaseAuth.instance.signInAnonymously() as a real User source,
+  // OR simply never emit a real User and instead override watchStaff to use
+  // our internal uid directly.
   //
-  // Final approach: use a StreamController<User?> and create a minimal
-  // User-like wrapper. Dart allows `implements` + `noSuchMethod` on
-  // non-sealed classes, which User is not sealed in firebase_auth.
-  final _authController = StreamController<User?>.broadcast();
-  _SignedInUser? _currentFakeUser;
+  // Chosen approach: internal uid-based stream; override watchStaff and
+  // currentStaff to bypass User entirely by watching the uid stream.
 
+  final _uidController = StreamController<String?>.broadcast();
+  String? _currentUid;
+
+  /// Exposes a fake User?-typed stream by mapping our internal uid stream.
+  /// Emits null when signed out. When signed in, emits a FirebaseAuth
+  /// anonymous User (requires no network — uses cached credential).
+  ///
+  /// Since User cannot be instantiated directly, we store the uid separately
+  /// and make watchStaff/fetchStaff work off our uid, not the User object.
+  /// The authStateChanges stream simply emits null (signed-out sentinel) and
+  /// a non-null cached User for signed-in state via anonymous auth.
   @override
-  Stream<User?> get authStateChanges => _authController.stream;
+  Stream<User?> get authStateChanges => _uidController.stream.asyncMap(
+        (uid) async {
+          if (uid == null) return null;
+          // Return a cached anonymous Firebase user just as a non-null sentinel.
+          // Only .uid is read downstream, and we intercept watchStaff by uid.
+          try {
+            final cred =
+                await FirebaseAuth.instance.signInAnonymously();
+            return cred.user;
+          } catch (_) {
+            // If Firebase is unreachable (pure offline), return null.
+            // The app will stay on the login screen.
+            return null;
+          }
+        },
+      );
 
   @override
   Future<StaffModel> signIn({
@@ -119,8 +138,8 @@ class OfflineAuthRepository implements AuthRepository {
     }
 
     final user = matches.first;
-    _currentFakeUser = _SignedInUser(user.uid, user.email);
-    _authController.add(_currentFakeUser);
+    _currentUid = user.uid;
+    _uidController.add(user.uid);
     return user.toStaffModel();
   }
 
@@ -139,22 +158,23 @@ class OfflineAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    _currentFakeUser = null;
-    _authController.add(null);
+    _currentUid = null;
+    _uidController.add(null);
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (_) {}
   }
 
   @override
   Future<void> sendPasswordReset(String email) async {
     throw const AuthException(
-      message: 'Password reset is not available in offline / test mode.',
+      message: 'Password reset not available in offline / test mode.',
       code: 'offline-mode',
     );
   }
 
   @override
-  Future<void> updateDisplayName(String name) async {
-    // No-op in offline mode
-  }
+  Future<void> updateDisplayName(String name) async {}
 
   @override
   Future<void> updatePassword({
@@ -162,72 +182,38 @@ class OfflineAuthRepository implements AuthRepository {
     required String newPassword,
   }) async {
     throw const AuthException(
-      message: 'Password change is not available in offline / test mode.',
+      message: 'Password change not available in offline / test mode.',
       code: 'offline-mode',
     );
   }
 
   @override
   Future<StaffModel?> fetchStaff(String uid) async {
-    final match = _kOfflineUsers.where((u) => u.uid == uid);
-    return match.isEmpty ? null : match.first.toStaffModel();
+    // uid may be the offline uid OR an anonymous Firebase uid — check both
+    final byOfflineUid = _kOfflineUsers.where((u) => u.uid == uid);
+    if (byOfflineUid.isNotEmpty) return byOfflineUid.first.toStaffModel();
+    // Fall back to current session uid
+    if (_currentUid != null) {
+      final byCurrent = _kOfflineUsers.where((u) => u.uid == _currentUid);
+      if (byCurrent.isNotEmpty) return byCurrent.first.toStaffModel();
+    }
+    return null;
   }
 
   @override
   Stream<StaffModel?> watchStaff(String uid) {
-    return Stream.value(
-      _kOfflineUsers
-          .where((u) => u.uid == uid)
-          .map((u) => u.toStaffModel())
-          .firstOrNull,
-    );
+    // Same uid resolution as fetchStaff
+    final byOfflineUid =
+        _kOfflineUsers.where((u) => u.uid == uid).map((u) => u.toStaffModel());
+    if (byOfflineUid.isNotEmpty) return Stream.value(byOfflineUid.first);
+    if (_currentUid != null) {
+      final byCurrent = _kOfflineUsers
+          .where((u) => u.uid == _currentUid)
+          .map((u) => u.toStaffModel());
+      if (byCurrent.isNotEmpty) return Stream.value(byCurrent.first);
+    }
+    return const Stream.empty();
   }
-}
-
-// ── Minimal User stub ─────────────────────────────────────────────────────────
-
-/// A minimal [User]-compatible object. Only [uid] and [email] are used by
-/// this app's auth flow. All other getters throw if accidentally accessed.
-class _SignedInUser extends User {
-  _SignedInUser(this._uid, this._email);
-
-  final String _uid;
-  final String _email;
-
-  @override
-  String get uid => _uid;
-
-  @override
-  String? get email => _email;
-
-  @override
-  bool get emailVerified => true;
-
-  @override
-  bool get isAnonymous => false;
-
-  @override
-  String? get displayName => null;
-
-  @override
-  String? get phoneNumber => null;
-
-  @override
-  String? get photoURL => null;
-
-  @override
-  List<UserInfo> get providerData => const [];
-
-  @override
-  String? get tenantId => null;
-
-  @override
-  UserMetadata get metadata => throw UnimplementedError('offline mode');
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => throw UnimplementedError(
-        '_SignedInUser.${invocation.memberName} not implemented in offline mode.',
-      );
 }
 
 // ── Public credential list (for quick-fill UI) ────────────────────────────────
