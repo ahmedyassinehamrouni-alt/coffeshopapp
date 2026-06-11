@@ -10,19 +10,19 @@ part 'auth_provider.g.dart';
 // ── Raw Firebase auth state stream ───────────────────────────────────────────
 
 @riverpod
-Stream<User?> authState(AuthStateRef ref) =>
-    ref.watch(authRepositoryProvider).authStateChanges;
+Stream<User?> authState(Ref ref) =>
+  ref.watch(authRepositoryProvider).authStateChanges;
 
 // ── Current Firebase user (nullable) ─────────────────────────────────────────
 
 @riverpod
-User? currentUser(CurrentUserRef ref) =>
-    ref.watch(authStateProvider).valueOrNull;
+User? currentUser(Ref ref) =>
+  ref.watch(authStateProvider).value;
 
 // ── Live StaffModel for the signed-in user ────────────────────────────────────
 
 @riverpod
-Stream<StaffModel?> currentStaff(CurrentStaffRef ref) {
+Stream<StaffModel?> currentStaff(Ref ref) {
   final user = ref.watch(currentUserProvider);
   if (user == null) return const Stream.empty();
   return ref.watch(authRepositoryProvider).watchStaff(user.uid);
@@ -31,8 +31,8 @@ Stream<StaffModel?> currentStaff(CurrentStaffRef ref) {
 // ── Convenience: current role ─────────────────────────────────────────────────
 
 @riverpod
-StaffRole? currentRole(CurrentRoleRef ref) =>
-    ref.watch(currentStaffProvider).valueOrNull?.role;
+StaffRole? currentRole(Ref ref) =>
+  ref.watch(currentStaffProvider).value?.role;
 
 // ── Sign-in notifier ──────────────────────────────────────────────────────────
 

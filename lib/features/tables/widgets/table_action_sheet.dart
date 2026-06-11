@@ -27,7 +27,7 @@ class _TableActionSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final role = ref.watch(currentRoleProvider) ?? StaffRole.waiter;
-    final notifier = ref.read(tableNotifierProvider.notifier);
+    final notifier = ref.read(tableProvider.notifier);
     final isAdmin = role == StaffRole.admin;
 
     return Container(
@@ -276,7 +276,7 @@ void _showEditDialog(BuildContext context, WidgetRef ref, TableModel table) {
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(ctx);
-              await ref.read(tableNotifierProvider.notifier).editTable(
+              await ref.read(tableProvider.notifier).editTable(
                     tableId: table.id,
                     capacity: capacity,
                     section: section,
@@ -312,7 +312,7 @@ void _showDeleteConfirm(BuildContext context, WidgetRef ref, TableModel table) {
           onPressed: () async {
             Navigator.pop(context);
             await ref
-                .read(tableNotifierProvider.notifier)
+                .read(tableProvider.notifier)
                 .deleteTable(table.id);
           },
           child: const Text('Remove'),

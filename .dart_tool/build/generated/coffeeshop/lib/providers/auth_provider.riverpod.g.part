@@ -1,0 +1,321 @@
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(authState)
+const authStateProvider = AuthStateProvider._();
+
+final class AuthStateProvider
+    extends $FunctionalProvider<AsyncValue<User?>, User?, Stream<User?>>
+    with $FutureModifier<User?>, $StreamProvider<User?> {
+  const AuthStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$authStateHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<User?> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<User?> create(Ref ref) {
+    return authState(ref);
+  }
+}
+
+String _$authStateHash() => r'f78be84c44aa3c64f05576af44060a30ae8b969b';
+
+@ProviderFor(currentUser)
+const currentUserProvider = CurrentUserProvider._();
+
+final class CurrentUserProvider extends $FunctionalProvider<User?, User?, User?>
+    with $Provider<User?> {
+  const CurrentUserProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentUserProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$currentUserHash();
+
+  @$internal
+  @override
+  $ProviderElement<User?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  User? create(Ref ref) {
+    return currentUser(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(User? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<User?>(value),
+    );
+  }
+}
+
+String _$currentUserHash() => r'dd25cf521f47fa3b2b9e1ef86400f49894d3d2e3';
+
+@ProviderFor(currentStaff)
+const currentStaffProvider = CurrentStaffProvider._();
+
+final class CurrentStaffProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<StaffModel?>,
+          StaffModel?,
+          Stream<StaffModel?>
+        >
+    with $FutureModifier<StaffModel?>, $StreamProvider<StaffModel?> {
+  const CurrentStaffProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentStaffProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$currentStaffHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<StaffModel?> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<StaffModel?> create(Ref ref) {
+    return currentStaff(ref);
+  }
+}
+
+String _$currentStaffHash() => r'0dd325ccc72e98216c08211c6257b8a9e82c6a03';
+
+@ProviderFor(currentRole)
+const currentRoleProvider = CurrentRoleProvider._();
+
+final class CurrentRoleProvider
+    extends $FunctionalProvider<StaffRole?, StaffRole?, StaffRole?>
+    with $Provider<StaffRole?> {
+  const CurrentRoleProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentRoleProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$currentRoleHash();
+
+  @$internal
+  @override
+  $ProviderElement<StaffRole?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  StaffRole? create(Ref ref) {
+    return currentRole(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(StaffRole? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<StaffRole?>(value),
+    );
+  }
+}
+
+String _$currentRoleHash() => r'48f53fd97d9ef08f4507fe1de7a00eefc24aa5eb';
+
+@ProviderFor(SignInNotifier)
+const signInProvider = SignInNotifierProvider._();
+
+final class SignInNotifierProvider
+    extends $NotifierProvider<SignInNotifier, AsyncValue<StaffModel?>> {
+  const SignInNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'signInProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$signInNotifierHash();
+
+  @$internal
+  @override
+  SignInNotifier create() => SignInNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<StaffModel?> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AsyncValue<StaffModel?>>(value),
+    );
+  }
+}
+
+String _$signInNotifierHash() => r'08232b4d60de97275e73f85aee3f722ce233882c';
+
+abstract class _$SignInNotifier extends $Notifier<AsyncValue<StaffModel?>> {
+  AsyncValue<StaffModel?> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref as $Ref<AsyncValue<StaffModel?>, AsyncValue<StaffModel?>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<StaffModel?>, AsyncValue<StaffModel?>>,
+              AsyncValue<StaffModel?>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(RegisterNotifier)
+const registerProvider = RegisterNotifierProvider._();
+
+final class RegisterNotifierProvider
+    extends $NotifierProvider<RegisterNotifier, AsyncValue<StaffModel?>> {
+  const RegisterNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'registerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$registerNotifierHash();
+
+  @$internal
+  @override
+  RegisterNotifier create() => RegisterNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<StaffModel?> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AsyncValue<StaffModel?>>(value),
+    );
+  }
+}
+
+String _$registerNotifierHash() => r'a07f38bd313625d2e386c4f134d9587e73c2c04a';
+
+abstract class _$RegisterNotifier extends $Notifier<AsyncValue<StaffModel?>> {
+  AsyncValue<StaffModel?> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref =
+        this.ref as $Ref<AsyncValue<StaffModel?>, AsyncValue<StaffModel?>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<StaffModel?>, AsyncValue<StaffModel?>>,
+              AsyncValue<StaffModel?>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(ChangePasswordNotifier)
+const changePasswordProvider = ChangePasswordNotifierProvider._();
+
+final class ChangePasswordNotifierProvider
+    extends $NotifierProvider<ChangePasswordNotifier, AsyncValue<void>> {
+  const ChangePasswordNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'changePasswordProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$changePasswordNotifierHash();
+
+  @$internal
+  @override
+  ChangePasswordNotifier create() => ChangePasswordNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<void> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AsyncValue<void>>(value),
+    );
+  }
+}
+
+String _$changePasswordNotifierHash() =>
+    r'5e321b3e548f9d984b5b516fb4be51418935e5eb';
+
+abstract class _$ChangePasswordNotifier extends $Notifier<AsyncValue<void>> {
+  AsyncValue<void> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

@@ -238,5 +238,5 @@ class FirebaseAuthRepository implements AuthRepository {
 // ── Provider ──────────────────────────────────────────────────────────────────
 
 @riverpod
-AuthRepository authRepository(AuthRepositoryRef ref) =>
-    kOfflineMode ? OfflineAuthRepository() : FirebaseAuthRepository();
+AuthRepository authRepository(Ref ref) =>
+  kOfflineMode ? OfflineAuthRepository() : FirebaseAuthRepository();

@@ -45,7 +45,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
     if (!_formKey.currentState!.validate()) return;
 
-    await ref.read(registerNotifierProvider.notifier).register(
+    await ref.read(registerProvider.notifier).register(
           name: _nameCtrl.text,
           email: _emailCtrl.text,
           password: _passwordCtrl.text,
@@ -64,15 +64,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _errorMessage = null;
       _success = false;
     });
-    ref.read(registerNotifierProvider.notifier).reset();
+    ref.read(registerProvider.notifier).reset();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(registerNotifierProvider);
+    final state = ref.watch(registerProvider);
     final isLoading = state.isLoading;
 
-    ref.listen(registerNotifierProvider, (_, next) {
+    ref.listen(registerProvider, (_, next) {
       if (next is AsyncError) {
         setState(() {
           _errorMessage = next.error is AppException

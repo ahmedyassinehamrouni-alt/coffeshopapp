@@ -51,7 +51,7 @@ class ProfileScreen extends ConsumerWidget {
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () async {
               Navigator.pop(context);
-              await ref.read(signInNotifierProvider.notifier).signOut();
+              await ref.read(signInProvider.notifier).signOut();
             },
             child: const Text('Sign Out'),
           ),
@@ -188,7 +188,7 @@ class _ProfileBody extends ConsumerWidget {
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () async {
               Navigator.pop(context);
-              await ref.read(signInNotifierProvider.notifier).signOut();
+              await ref.read(signInProvider.notifier).signOut();
             },
             child: const Text('Sign Out'),
           ),

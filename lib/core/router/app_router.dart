@@ -18,6 +18,7 @@ import '../../features/payment/screens/payment_screen.dart';
 import '../../features/tables/screens/table_map_screen.dart';
 import '../../models/staff_model.dart';
 import '../../providers/auth_provider.dart';
+import '../../repositories/auth_repository.dart';
 import '../utils/shell_scaffold.dart';
 
 part 'app_router.g.dart';
@@ -48,7 +49,7 @@ abstract class AppRoutes {
 // ── Router provider ───────────────────────────────────────────────────────────
 
 @riverpod
-GoRouter appRouter(AppRouterRef ref) {
+GoRouter appRouter(Ref ref) {
   final authStream = ref.watch(authStateProvider);
 
   return GoRouter(
@@ -57,7 +58,7 @@ GoRouter appRouter(AppRouterRef ref) {
 
     redirect: (context, state) {
       final isLoading = authStream.isLoading;
-      final isLoggedIn = authStream.valueOrNull != null;
+      final isLoggedIn = authStream.value != null;
       final loc = state.matchedLocation;
 
       // Still resolving — stay on splash
@@ -74,7 +75,7 @@ GoRouter appRouter(AppRouterRef ref) {
     },
 
     refreshListenable: _RouterRefreshStream(
-      ref.watch(authStateProvider.stream),
+      ref.watch(authRepositoryProvider).authStateChanges,
     ),
 
     routes: [

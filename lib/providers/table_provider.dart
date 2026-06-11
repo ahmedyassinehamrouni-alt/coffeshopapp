@@ -9,14 +9,14 @@ part 'table_provider.g.dart';
 // ── Live stream of all tables ─────────────────────────────────────────────────
 
 @riverpod
-Stream<List<TableModel>> tablesStream(TablesStreamRef ref) =>
-    ref.watch(tableRepositoryProvider).watchAllTables();
+Stream<List<TableModel>> tablesStream(Ref ref) =>
+  ref.watch(tableRepositoryProvider).watchAllTables();
 
 // ── Live stream filtered by section ──────────────────────────────────────────
 
 @riverpod
 Stream<List<TableModel>> tablesBySection(
-  TablesBySectionRef ref,
+  Ref ref,
   TableSection section,
 ) =>
     ref.watch(tableRepositoryProvider).watchTablesBySection(section);
@@ -25,7 +25,7 @@ Stream<List<TableModel>> tablesBySection(
 
 @riverpod
 Stream<TableModel?> tableStream(
-  TableStreamRef ref,
+  Ref ref,
   String tableId,
 ) =>
     ref.watch(tableRepositoryProvider).watchTable(tableId);
@@ -33,8 +33,8 @@ Stream<TableModel?> tableStream(
 // ── Derived: counts per status ────────────────────────────────────────────────
 
 @riverpod
-Map<TableStatus, int> tableStatusCounts(TableStatusCountsRef ref) {
-  final tables = ref.watch(tablesStreamProvider).valueOrNull ?? [];
+Map<TableStatus, int> tableStatusCounts(Ref ref) {
+  final tables = ref.watch(tablesStreamProvider).value ?? [];
   final counts = <TableStatus, int>{for (final s in TableStatus.values) s: 0};
   for (final t in tables) {
     counts[t.status] = (counts[t.status] ?? 0) + 1;
@@ -55,8 +55,8 @@ class SelectedSectionFilter extends _$SelectedSectionFilter {
 // ── Filtered tables (applies section + optional status filter) ────────────────
 
 @riverpod
-List<TableModel> filteredTables(FilteredTablesRef ref) {
-  final all = ref.watch(tablesStreamProvider).valueOrNull ?? [];
+List<TableModel> filteredTables(Ref ref) {
+  final all = ref.watch(tablesStreamProvider).value ?? [];
   final section = ref.watch(selectedSectionFilterProvider);
   final statusFilter = ref.watch(tableStatusFilterProvider);
 

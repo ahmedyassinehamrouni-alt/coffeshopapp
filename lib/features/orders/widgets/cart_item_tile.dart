@@ -116,7 +116,7 @@ class LiveOrderItemTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(orderNotifierProvider.notifier);
+    final notifier = ref.read(orderProvider.notifier);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -466,7 +466,7 @@ class _LiveNoteRowState extends ConsumerState<_LiveNoteRow> {
   }
 
   void _save() {
-    ref.read(orderNotifierProvider.notifier).setItemNote(
+    ref.read(orderProvider.notifier).setItemNote(
           orderId: widget.orderId,
           menuItemId: widget.item.menuItemId,
           note: _ctrl.text.trim(),

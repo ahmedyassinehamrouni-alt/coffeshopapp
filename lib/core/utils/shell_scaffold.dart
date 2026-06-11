@@ -14,7 +14,7 @@ class ShellScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final staff = ref.watch(currentStaffProvider).valueOrNull;
+    final staff = ref.watch(currentStaffProvider).value;
     final role = staff?.role ?? StaffRole.waiter;
     final location = GoRouterState.of(context).matchedLocation;
 

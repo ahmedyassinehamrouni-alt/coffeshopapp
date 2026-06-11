@@ -39,7 +39,7 @@ enum MenuCategory {
 // ── Model ─────────────────────────────────────────────────────────────────────
 
 @freezed
-class MenuItemModel with _$MenuItemModel {
+abstract class MenuItemModel with _$MenuItemModel {
   const factory MenuItemModel({
     required String id,
     required String name,

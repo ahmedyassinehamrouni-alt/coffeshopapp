@@ -35,7 +35,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     setState(() => _errorMessage = null);
     if (!_formKey.currentState!.validate()) return;
 
-    await ref.read(changePasswordNotifierProvider.notifier).changePassword(
+    await ref.read(changePasswordProvider.notifier).changePassword(
           currentPassword: _currentCtrl.text,
           newPassword: _newCtrl.text,
         );
@@ -43,10 +43,10 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(changePasswordNotifierProvider);
+    final state = ref.watch(changePasswordProvider);
     final isLoading = state.isLoading;
 
-    ref.listen(changePasswordNotifierProvider, (_, next) {
+    ref.listen(changePasswordProvider, (_, next) {
       if (next is AsyncError) {
         setState(() {
           _errorMessage = next.error is AppException

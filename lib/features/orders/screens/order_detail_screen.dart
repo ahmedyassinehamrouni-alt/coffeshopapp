@@ -102,7 +102,7 @@ class OrderDetailScreen extends ConsumerWidget {
             onPressed: () async {
               Navigator.pop(context);
               await ref
-                  .read(orderNotifierProvider.notifier)
+                  .read(orderProvider.notifier)
                   .cancelOrder(order.id);
               if (context.mounted) context.go('/tables');
             },
@@ -409,7 +409,7 @@ class _ActionButtons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(orderNotifierProvider.notifier);
+    final notifier = ref.read(orderProvider.notifier);
 
     return switch (order.status) {
       OrderStatus.pending => ElevatedButton.icon(
@@ -529,7 +529,7 @@ class _LiveOrderNoteFieldState extends ConsumerState<_LiveOrderNoteField> {
         maxLines: 3,
         minLines: 1,
         onChanged: (v) =>
-            ref.read(orderNotifierProvider.notifier).setOrderNote(
+            ref.read(orderProvider.notifier).setOrderNote(
                   orderId: widget.order.id,
                   note: v,
                 ),

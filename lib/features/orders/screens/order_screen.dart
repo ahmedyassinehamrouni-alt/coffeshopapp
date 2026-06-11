@@ -20,7 +20,7 @@ class OrderScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tableAsync = ref.watch(tableStreamProvider(tableId));
     final draft = ref.watch(orderDraftProvider(tableId));
-    final orderState = ref.watch(orderNotifierProvider);
+    final orderState = ref.watch(orderProvider);
     final isLoading = orderState.isLoading;
 
     return Scaffold(
@@ -131,11 +131,11 @@ class OrderScreen extends ConsumerWidget {
 
   Future<void> _placeOrder(BuildContext context, WidgetRef ref) async {
     final tableAsync = ref.read(tableStreamProvider(tableId));
-    final table = tableAsync.valueOrNull;
+    final table = tableAsync.value;
     if (table == null) return;
 
     final draft = ref.read(orderDraftProvider(tableId));
-    final result = await ref.read(orderNotifierProvider.notifier).placeOrder(
+    final result = await ref.read(orderProvider.notifier).placeOrder(
           tableId: tableId,
           tableNumber: table.number,
           items: draft.items,

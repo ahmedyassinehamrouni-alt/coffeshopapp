@@ -8,20 +8,20 @@ part 'menu_provider.g.dart';
 // ── All available items stream ────────────────────────────────────────────────
 
 @riverpod
-Stream<List<MenuItemModel>> menuItemsStream(MenuItemsStreamRef ref) =>
-    ref.watch(menuRepositoryProvider).watchAvailableItems();
+Stream<List<MenuItemModel>> menuItemsStream(Ref ref) =>
+  ref.watch(menuRepositoryProvider).watchAvailableItems();
 
 // ── All items (admin) ─────────────────────────────────────────────────────────
 
 @riverpod
-Stream<List<MenuItemModel>> allMenuItemsStream(AllMenuItemsStreamRef ref) =>
-    ref.watch(menuRepositoryProvider).watchAllItems();
+Stream<List<MenuItemModel>> allMenuItemsStream(Ref ref) =>
+  ref.watch(menuRepositoryProvider).watchAllItems();
 
 // ── Items by category ─────────────────────────────────────────────────────────
 
 @riverpod
 Stream<List<MenuItemModel>> menuItemsByCategory(
-  MenuItemsByCategoryRef ref,
+  Ref ref,
   MenuCategory category,
 ) =>
     ref.watch(menuRepositoryProvider).watchByCategory(category);
@@ -50,8 +50,8 @@ class MenuSearchQuery extends _$MenuSearchQuery {
 // ── Filtered + searched items (derived) ──────────────────────────────────────
 
 @riverpod
-List<MenuItemModel> filteredMenuItems(FilteredMenuItemsRef ref) {
-  final all = ref.watch(menuItemsStreamProvider).valueOrNull ?? [];
+List<MenuItemModel> filteredMenuItems(Ref ref) {
+  final all = ref.watch(menuItemsStreamProvider).value ?? [];
   final category = ref.watch(selectedMenuCategoryProvider);
   final query = ref.watch(menuSearchQueryProvider);
 
@@ -76,7 +76,7 @@ List<MenuItemModel> filteredMenuItems(FilteredMenuItemsRef ref) {
 
 @riverpod
 Map<MenuCategory, List<MenuItemModel>> groupedMenuItems(
-    GroupedMenuItemsRef ref) {
+    Ref ref) {
   final items = ref.watch(filteredMenuItemsProvider);
   final map = <MenuCategory, List<MenuItemModel>>{};
   for (final item in items) {

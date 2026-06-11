@@ -1,0 +1,42 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_TableModel _$TableModelFromJson(Map<String, dynamic> json) => _TableModel(
+  id: json['id'] as String,
+  number: (json['number'] as num).toInt(),
+  capacity: (json['capacity'] as num).toInt(),
+  status: $enumDecode(_$TableStatusEnumMap, json['status']),
+  section: $enumDecode(_$TableSectionEnumMap, json['section']),
+  currentOrderId: json['currentOrderId'] as String?,
+  isDeleted: json['isDeleted'] as bool? ?? false,
+  updatedAt: json['updatedAt'] == null
+      ? null
+      : DateTime.parse(json['updatedAt'] as String),
+);
+
+Map<String, dynamic> _$TableModelToJson(_TableModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'number': instance.number,
+      'capacity': instance.capacity,
+      'status': _$TableStatusEnumMap[instance.status]!,
+      'section': _$TableSectionEnumMap[instance.section]!,
+      'currentOrderId': instance.currentOrderId,
+      'isDeleted': instance.isDeleted,
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
+
+const _$TableStatusEnumMap = {
+  TableStatus.available: 'available',
+  TableStatus.occupied: 'occupied',
+  TableStatus.reserved: 'reserved',
+  TableStatus.cleaning: 'cleaning',
+};
+
+const _$TableSectionEnumMap = {
+  TableSection.indoor: 'indoor',
+  TableSection.outdoor: 'outdoor',
+  TableSection.bar: 'bar',
+  TableSection.private: 'private',
+};

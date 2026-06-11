@@ -1,0 +1,27 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_StaffModel _$StaffModelFromJson(Map<String, dynamic> json) => _StaffModel(
+  id: json['id'] as String,
+  name: json['name'] as String,
+  email: json['email'] as String,
+  role: $enumDecode(_$StaffRoleEnumMap, json['role']),
+  isActive: json['isActive'] as bool? ?? true,
+);
+
+Map<String, dynamic> _$StaffModelToJson(_StaffModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'email': instance.email,
+      'role': _$StaffRoleEnumMap[instance.role]!,
+      'isActive': instance.isActive,
+    };
+
+const _$StaffRoleEnumMap = {
+  StaffRole.admin: 'admin',
+  StaffRole.cashier: 'cashier',
+  StaffRole.waiter: 'waiter',
+  StaffRole.kitchen: 'kitchen',
+};

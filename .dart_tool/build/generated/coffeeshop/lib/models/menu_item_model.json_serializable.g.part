@@ -1,0 +1,35 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_MenuItemModel _$MenuItemModelFromJson(Map<String, dynamic> json) =>
+    _MenuItemModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      price: (json['price'] as num).toDouble(),
+      category: $enumDecode(_$MenuCategoryEnumMap, json['category']),
+      description: json['description'] as String? ?? '',
+      isAvailable: json['isAvailable'] as bool? ?? true,
+      imageUrl: json['imageUrl'] as String?,
+      preparationTimeMin: (json['preparationTimeMin'] as num?)?.toInt() ?? 5,
+    );
+
+Map<String, dynamic> _$MenuItemModelToJson(_MenuItemModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'price': instance.price,
+      'category': _$MenuCategoryEnumMap[instance.category]!,
+      'description': instance.description,
+      'isAvailable': instance.isAvailable,
+      'imageUrl': instance.imageUrl,
+      'preparationTimeMin': instance.preparationTimeMin,
+    };
+
+const _$MenuCategoryEnumMap = {
+  MenuCategory.hotDrinks: 'hotDrinks',
+  MenuCategory.coldDrinks: 'coldDrinks',
+  MenuCategory.food: 'food',
+  MenuCategory.desserts: 'desserts',
+  MenuCategory.extras: 'extras',
+};

@@ -73,7 +73,7 @@ enum OrderStatus {
 // ── Order item ────────────────────────────────────────────────────────────────
 
 @freezed
-class OrderItem with _$OrderItem {
+abstract class OrderItem with _$OrderItem {
   const factory OrderItem({
     required String menuItemId,
     required String name,         // denormalised — snapshot of menu item name
@@ -112,7 +112,7 @@ extension OrderItemX on OrderItem {
 // ── Order model ───────────────────────────────────────────────────────────────
 
 @freezed
-class OrderModel with _$OrderModel {
+abstract class OrderModel with _$OrderModel {
   const factory OrderModel({
     required String id,
     required String tableId,

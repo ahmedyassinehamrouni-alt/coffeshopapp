@@ -1,0 +1,452 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'table_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(tablesStream)
+const tablesStreamProvider = TablesStreamProvider._();
+
+final class TablesStreamProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<TableModel>>,
+          List<TableModel>,
+          Stream<List<TableModel>>
+        >
+    with $FutureModifier<List<TableModel>>, $StreamProvider<List<TableModel>> {
+  const TablesStreamProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tablesStreamProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tablesStreamHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<TableModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<TableModel>> create(Ref ref) {
+    return tablesStream(ref);
+  }
+}
+
+String _$tablesStreamHash() => r'88b9b849d8907b110b14b868ee88903bb2b2f3ce';
+
+@ProviderFor(tablesBySection)
+const tablesBySectionProvider = TablesBySectionFamily._();
+
+final class TablesBySectionProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<TableModel>>,
+          List<TableModel>,
+          Stream<List<TableModel>>
+        >
+    with $FutureModifier<List<TableModel>>, $StreamProvider<List<TableModel>> {
+  const TablesBySectionProvider._({
+    required TablesBySectionFamily super.from,
+    required TableSection super.argument,
+  }) : super(
+         retry: null,
+         name: r'tablesBySectionProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$tablesBySectionHash();
+
+  @override
+  String toString() {
+    return r'tablesBySectionProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $StreamProviderElement<List<TableModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<TableModel>> create(Ref ref) {
+    final argument = this.argument as TableSection;
+    return tablesBySection(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TablesBySectionProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$tablesBySectionHash() => r'fd8bc285827fa8e525b6f37eb66e1c587f5e7128';
+
+final class TablesBySectionFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<List<TableModel>>, TableSection> {
+  const TablesBySectionFamily._()
+    : super(
+        retry: null,
+        name: r'tablesBySectionProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  TablesBySectionProvider call(TableSection section) =>
+      TablesBySectionProvider._(argument: section, from: this);
+
+  @override
+  String toString() => r'tablesBySectionProvider';
+}
+
+@ProviderFor(tableStream)
+const tableStreamProvider = TableStreamFamily._();
+
+final class TableStreamProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<TableModel?>,
+          TableModel?,
+          Stream<TableModel?>
+        >
+    with $FutureModifier<TableModel?>, $StreamProvider<TableModel?> {
+  const TableStreamProvider._({
+    required TableStreamFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'tableStreamProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$tableStreamHash();
+
+  @override
+  String toString() {
+    return r'tableStreamProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $StreamProviderElement<TableModel?> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<TableModel?> create(Ref ref) {
+    final argument = this.argument as String;
+    return tableStream(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TableStreamProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$tableStreamHash() => r'ef9db1dc4aaaebf74daa300b67c30ed7d15ac01a';
+
+final class TableStreamFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<TableModel?>, String> {
+  const TableStreamFamily._()
+    : super(
+        retry: null,
+        name: r'tableStreamProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  TableStreamProvider call(String tableId) =>
+      TableStreamProvider._(argument: tableId, from: this);
+
+  @override
+  String toString() => r'tableStreamProvider';
+}
+
+@ProviderFor(tableStatusCounts)
+const tableStatusCountsProvider = TableStatusCountsProvider._();
+
+final class TableStatusCountsProvider
+    extends
+        $FunctionalProvider<
+          Map<TableStatus, int>,
+          Map<TableStatus, int>,
+          Map<TableStatus, int>
+        >
+    with $Provider<Map<TableStatus, int>> {
+  const TableStatusCountsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tableStatusCountsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tableStatusCountsHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<TableStatus, int>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Map<TableStatus, int> create(Ref ref) {
+    return tableStatusCounts(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<TableStatus, int> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<TableStatus, int>>(value),
+    );
+  }
+}
+
+String _$tableStatusCountsHash() => r'525a4e214b16250dc44f8e05b2fa7c01279584f5';
+
+@ProviderFor(SelectedSectionFilter)
+const selectedSectionFilterProvider = SelectedSectionFilterProvider._();
+
+final class SelectedSectionFilterProvider
+    extends $NotifierProvider<SelectedSectionFilter, TableSection?> {
+  const SelectedSectionFilterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedSectionFilterProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$selectedSectionFilterHash();
+
+  @$internal
+  @override
+  SelectedSectionFilter create() => SelectedSectionFilter();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TableSection? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TableSection?>(value),
+    );
+  }
+}
+
+String _$selectedSectionFilterHash() =>
+    r'fd5dcd179796d9636f831f430d2189621e78aab2';
+
+abstract class _$SelectedSectionFilter extends $Notifier<TableSection?> {
+  TableSection? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<TableSection?, TableSection?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<TableSection?, TableSection?>,
+              TableSection?,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(filteredTables)
+const filteredTablesProvider = FilteredTablesProvider._();
+
+final class FilteredTablesProvider
+    extends
+        $FunctionalProvider<
+          List<TableModel>,
+          List<TableModel>,
+          List<TableModel>
+        >
+    with $Provider<List<TableModel>> {
+  const FilteredTablesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'filteredTablesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$filteredTablesHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<TableModel>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<TableModel> create(Ref ref) {
+    return filteredTables(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<TableModel> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<TableModel>>(value),
+    );
+  }
+}
+
+String _$filteredTablesHash() => r'9128aafa2237d484cc3c39b46983a43ed60b3e96';
+
+@ProviderFor(TableStatusFilter)
+const tableStatusFilterProvider = TableStatusFilterProvider._();
+
+final class TableStatusFilterProvider
+    extends $NotifierProvider<TableStatusFilter, TableStatus?> {
+  const TableStatusFilterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tableStatusFilterProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tableStatusFilterHash();
+
+  @$internal
+  @override
+  TableStatusFilter create() => TableStatusFilter();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TableStatus? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TableStatus?>(value),
+    );
+  }
+}
+
+String _$tableStatusFilterHash() => r'59ccb8f3421d3409c2a6fc682689d9c8bad9098a';
+
+abstract class _$TableStatusFilter extends $Notifier<TableStatus?> {
+  TableStatus? build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<TableStatus?, TableStatus?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<TableStatus?, TableStatus?>,
+              TableStatus?,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
+@ProviderFor(TableNotifier)
+const tableProvider = TableNotifierProvider._();
+
+final class TableNotifierProvider
+    extends $NotifierProvider<TableNotifier, AsyncValue<void>> {
+  const TableNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tableProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tableNotifierHash();
+
+  @$internal
+  @override
+  TableNotifier create() => TableNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<void> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AsyncValue<void>>(value),
+    );
+  }
+}
+
+String _$tableNotifierHash() => r'f89e3ce5ac7b5bef046c0bf7331068d5a5f2217c';
+
+abstract class _$TableNotifier extends $Notifier<AsyncValue<void>> {
+  AsyncValue<void> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<AsyncValue<void>, AsyncValue<void>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, AsyncValue<void>>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}

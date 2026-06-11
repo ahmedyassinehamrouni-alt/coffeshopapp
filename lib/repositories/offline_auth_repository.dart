@@ -9,7 +9,6 @@ import 'auth_repository.dart';
 
 // ── Hardcoded test users ──────────────────────────────────────────────────────
 
-/// All offline test accounts. Email is also the key used for lookup.
 const _kOfflineUsers = [
   _OfflineUser(
     uid: 'offline-admin-001',
@@ -67,19 +66,35 @@ class _OfflineUser {
 
 // ── Repository ────────────────────────────────────────────────────────────────
 
-/// A fully-offline [AuthRepository] that uses [_kOfflineUsers] instead of
-/// Firebase. Drop-in for [FirebaseAuthRepository] during development.
+/// Offline drop-in for [FirebaseAuthRepository]. Uses hardcoded test accounts.
+/// Toggle via [kOfflineMode] in dev_config.dart.
+///
+/// ⚠️  NEVER ship a release build with kOfflineMode = true.
 class OfflineAuthRepository implements AuthRepository {
   OfflineAuthRepository() {
     print('⚠️  BrewDesk: running in OFFLINE / TEST mode — no Firebase auth.');
   }
 
+  // We stream String? (uid) internally and expose a User?-typed stream
+  // by wrapping the uid in a minimal UserInfo-compatible object via
+  // FirebaseAuth's anonymous sign-in alternative — but since we have no
+  // network, we use a StreamController<User?> and emit null for sign-out.
+  // For sign-in we emit a cached FirebaseAuth.instance.currentUser after
+  // a fake anonymous sign-in, OR simply keep a separate uid stream.
+  //
+  // Simplest safe approach: keep the uid in memory; expose a stream that
+  // emits null (signed out) or a recycled User object via a completer-based
+  // bridge. Since only user.uid is accessed by consumers, we proxy via
+  // a StreamController<User?> that emits null on sign-out and re-uses a
+  // previously fetched real anonymous User on sign-in... but that needs
+  // network.
+  //
+  // Final approach: use a StreamController<User?> and create a minimal
+  // User-like wrapper. Dart allows `implements` + `noSuchMethod` on
+  // non-sealed classes, which User is not sealed in firebase_auth.
   final _authController = StreamController<User?>.broadcast();
-  StaffModel? _currentStaff;
+  _SignedInUser? _currentFakeUser;
 
-  // The offline repo never produces real Firebase [User] objects.
-  // Instead it just emits `null` (signed out) or keeps a fake uid in memory.
-  // Consumers that only need the uid can call [fetchStaff] directly.
   @override
   Stream<User?> get authStateChanges => _authController.stream;
 
@@ -88,27 +103,25 @@ class OfflineAuthRepository implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    // Simulate a tiny network delay so loading states are visible
     await Future.delayed(const Duration(milliseconds: 400));
 
-    final match = _kOfflineUsers.where(
+    final matches = _kOfflineUsers.where(
       (u) =>
           u.email.toLowerCase() == email.trim().toLowerCase() &&
           u.password == password,
     );
 
-    if (match.isEmpty) {
+    if (matches.isEmpty) {
       throw const AuthException(
         message: 'Invalid email or password.',
         code: 'wrong-password',
       );
     }
 
-    _currentStaff = match.first.toStaffModel();
-    // Emit a fake non-null signal on the stream so consumers know someone
-    // signed in. We reuse the uid string as a placeholder.
-    _authController.add(_FakeUser(match.first.uid));
-    return _currentStaff!;
+    final user = matches.first;
+    _currentFakeUser = _SignedInUser(user.uid, user.email);
+    _authController.add(_currentFakeUser);
+    return user.toStaffModel();
   }
 
   @override
@@ -126,7 +139,7 @@ class OfflineAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    _currentStaff = null;
+    _currentFakeUser = null;
     _authController.add(null);
   }
 
@@ -162,33 +175,63 @@ class OfflineAuthRepository implements AuthRepository {
 
   @override
   Stream<StaffModel?> watchStaff(String uid) {
-    // Return a one-shot stream with the staff model (no live updates needed)
     return Stream.value(
-      _kOfflineUsers.where((u) => u.uid == uid).map((u) => u.toStaffModel()).firstOrNull,
+      _kOfflineUsers
+          .where((u) => u.uid == uid)
+          .map((u) => u.toStaffModel())
+          .firstOrNull,
     );
   }
 }
 
-// ── Fake Firebase User stub ───────────────────────────────────────────────────
+// ── Minimal User stub ─────────────────────────────────────────────────────────
 
-/// Minimal stub that satisfies [User?] stream consumers needing only [uid].
-class _FakeUser implements User {
-  const _FakeUser(this.uid);
+/// A minimal [User]-compatible object. Only [uid] and [email] are used by
+/// this app's auth flow. All other getters throw if accidentally accessed.
+class _SignedInUser extends User {
+  _SignedInUser(this._uid, this._email);
+
+  final String _uid;
+  final String _email;
 
   @override
-  final String uid;
+  String get uid => _uid;
 
-  // All other members are unused by this app — throw to surface accidental use.
+  @override
+  String? get email => _email;
+
+  @override
+  bool get emailVerified => true;
+
+  @override
+  bool get isAnonymous => false;
+
+  @override
+  String? get displayName => null;
+
+  @override
+  String? get phoneNumber => null;
+
+  @override
+  String? get photoURL => null;
+
+  @override
+  List<UserInfo> get providerData => const [];
+
+  @override
+  String? get tenantId => null;
+
+  @override
+  UserMetadata get metadata => throw UnimplementedError('offline mode');
+
   @override
   dynamic noSuchMethod(Invocation invocation) => throw UnimplementedError(
-        '_FakeUser: ${invocation.memberName} is not implemented in offline mode.',
+        '_SignedInUser.${invocation.memberName} not implemented in offline mode.',
       );
 }
 
-// ── Public accessor for test credentials ─────────────────────────────────────
+// ── Public credential list (for quick-fill UI) ────────────────────────────────
 
-/// Exposes the list of offline test accounts so the UI can render quick-fill
-/// buttons without duplicating the credential list.
 List<OfflineTestCredential> get offlineTestCredentials => _kOfflineUsers
     .map((u) => OfflineTestCredential(
           email: u.email,

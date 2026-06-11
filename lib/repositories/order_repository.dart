@@ -433,11 +433,11 @@ class FirebaseOrderRepository implements OrderRepository {
   }
 
   void _handle(Object err, StackTrace st) {
-    if (err is FirebaseException) throw _map(err as FirebaseException);
+    if (err is FirebaseException) throw _map(err);
     throw err;
   }
 }
 
 @riverpod
-OrderRepository orderRepository(OrderRepositoryRef ref) =>
-    FirebaseOrderRepository();
+OrderRepository orderRepository(Ref ref) =>
+  FirebaseOrderRepository();

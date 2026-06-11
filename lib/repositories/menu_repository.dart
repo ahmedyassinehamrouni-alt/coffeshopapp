@@ -128,5 +128,5 @@ class FirebaseMenuRepository implements MenuRepository {
 }
 
 @riverpod
-MenuRepository menuRepository(MenuRepositoryRef ref) =>
-    FirebaseMenuRepository();
+MenuRepository menuRepository(Ref ref) =>
+  FirebaseMenuRepository();

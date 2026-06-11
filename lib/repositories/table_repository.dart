@@ -264,5 +264,5 @@ class FirebaseTableRepository implements TableRepository {
 // ── Provider ──────────────────────────────────────────────────────────────────
 
 @riverpod
-TableRepository tableRepository(TableRepositoryRef ref) =>
-    FirebaseTableRepository();
+TableRepository tableRepository(Ref ref) =>
+  FirebaseTableRepository();

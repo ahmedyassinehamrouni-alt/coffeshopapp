@@ -47,7 +47,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     // This screen is only visible during the brief loading window.
     ref.listen(authStateProvider, (_, next) {
       if (!next.isLoading && context.mounted) {
-        final isLoggedIn = next.valueOrNull != null;
+        final isLoggedIn = next.value != null;
         context.go(isLoggedIn ? AppRoutes.tableMap : AppRoutes.login);
       }
     });

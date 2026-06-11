@@ -39,14 +39,14 @@ class _AddTableSheetState extends ConsumerState<_AddTableSheet> {
     setState(() => _errorMessage = null);
     if (!_formKey.currentState!.validate()) return;
 
-    final result = await ref.read(tableNotifierProvider.notifier).createTable(
+    final result = await ref.read(tableProvider.notifier).createTable(
           number: int.parse(_numberCtrl.text.trim()),
           capacity: _capacity,
           section: _section,
         );
 
     if (mounted) {
-      final state = ref.read(tableNotifierProvider);
+      final state = ref.read(tableProvider);
       if (state is AsyncError) {
         setState(() => _errorMessage = state.error.toString());
       } else if (result != null) {
@@ -63,7 +63,7 @@ class _AddTableSheetState extends ConsumerState<_AddTableSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(tableNotifierProvider);
+    final state = ref.watch(tableProvider);
     final isLoading = state.isLoading;
 
     return Container(

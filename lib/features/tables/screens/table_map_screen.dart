@@ -125,7 +125,7 @@ class TableMapScreen extends ConsumerWidget {
   }
 
   void _showProfileMenu(BuildContext context, WidgetRef ref) {
-    final staff = ref.read(currentStaffProvider).valueOrNull;
+    final staff = ref.read(currentStaffProvider).value;
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.surface,
@@ -170,7 +170,7 @@ class TableMapScreen extends ConsumerWidget {
                       .copyWith(color: AppColors.error)),
               onTap: () async {
                 Navigator.pop(context);
-                await ref.read(signInNotifierProvider.notifier).signOut();
+                await ref.read(signInProvider.notifier).signOut();
               },
             ),
           ],

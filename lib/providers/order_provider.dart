@@ -12,28 +12,28 @@ part 'order_provider.g.dart';
 
 @riverpod
 Stream<List<OrderModel>> ordersByTable(
-  OrdersByTableRef ref,
+  Ref ref,
   String tableId,
 ) =>
     ref.watch(orderRepositoryProvider).watchOrdersByTable(tableId);
 
 @riverpod
 Stream<OrderModel?> activeOrderForTable(
-  ActiveOrderForTableRef ref,
+  Ref ref,
   String tableId,
 ) =>
     ref.watch(orderRepositoryProvider).watchActiveOrderForTable(tableId);
 
 @riverpod
 Stream<OrderModel?> orderStream(
-  OrderStreamRef ref,
+  Ref ref,
   String orderId,
 ) =>
     ref.watch(orderRepositoryProvider).watchOrder(orderId);
 
 @riverpod
-Stream<List<OrderModel>> activeOrdersStream(ActiveOrdersStreamRef ref) =>
-    ref.watch(orderRepositoryProvider).watchActiveOrders();
+Stream<List<OrderModel>> activeOrdersStream(Ref ref) =>
+  ref.watch(orderRepositoryProvider).watchActiveOrders();
 
 // ── Draft cart state ─────────────────────────────────────────────────────────
 //
@@ -130,7 +130,7 @@ class OrderNotifier extends _$OrderNotifier {
     state = const AsyncValue.loading();
     OrderModel? result;
 
-    final staff = ref.read(currentStaffProvider).valueOrNull;
+    final staff = ref.read(currentStaffProvider).value;
     if (staff == null) {
       state = AsyncValue.error(
           Exception('Not signed in'), StackTrace.current);

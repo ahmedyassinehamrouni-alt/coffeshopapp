@@ -35,9 +35,9 @@ class DefaultFirebaseOptions {
     apiKey: 'YOUR_WEB_API_KEY',
     appId: 'YOUR_WEB_APP_ID',
     messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+    projectId: 'coffeshop-a0fb0',
+    authDomain: 'coffeshop-a0fb0.firebaseapp.com',
+    storageBucket: 'coffeshop-a0fb0.appspot.com',
   );
 
   // ── Android ───────────────────────────────────────────────────────────────
@@ -45,8 +45,8 @@ class DefaultFirebaseOptions {
     apiKey: 'YOUR_ANDROID_API_KEY',
     appId: 'YOUR_ANDROID_APP_ID',
     messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+    projectId: 'coffeshop-a0fb0',
+    storageBucket: 'coffeshop-a0fb0.appspot.com',
   );
 
   // ── iOS ───────────────────────────────────────────────────────────────────
@@ -54,8 +54,8 @@ class DefaultFirebaseOptions {
     apiKey: 'YOUR_IOS_API_KEY',
     appId: 'YOUR_IOS_APP_ID',
     messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+    projectId: 'coffeshop-a0fb0',
+    storageBucket: 'coffeshop-a0fb0.appspot.com',
     iosClientId: 'YOUR_IOS_CLIENT_ID',
     iosBundleId: 'com.yourcompany.coffeeshop',
   );
@@ -65,8 +65,8 @@ class DefaultFirebaseOptions {
     apiKey: 'YOUR_MACOS_API_KEY',
     appId: 'YOUR_MACOS_APP_ID',
     messagingSenderId: 'YOUR_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+    projectId: 'coffeshop-a0fb0',
+    storageBucket: 'coffeshop-a0fb0.appspot.com',
     iosClientId: 'YOUR_MACOS_CLIENT_ID',
     iosBundleId: 'com.yourcompany.coffeeshop',
   );

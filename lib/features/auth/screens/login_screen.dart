@@ -55,7 +55,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     setState(() => _errorMessage = null);
     if (!_formKey.currentState!.validate()) return;
 
-    await ref.read(signInNotifierProvider.notifier).signIn(
+    await ref.read(signInProvider.notifier).signIn(
           email: _emailCtrl.text,
           password: _passwordCtrl.text,
         );
@@ -63,10 +63,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    final signInState = ref.watch(signInNotifierProvider);
+    final signInState = ref.watch(signInProvider);
     final isLoading = signInState.isLoading;
 
-    ref.listen(signInNotifierProvider, (_, next) {
+    ref.listen(signInProvider, (_, next) {
       if (next is AsyncError) {
         setState(() {
           _errorMessage = next.error is AppException
@@ -291,14 +291,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               const SizedBox(height: 20),
               Consumer(
                 builder: (_, ref, __) {
-                  final state = ref.watch(signInNotifierProvider);
+                  final state = ref.watch(signInProvider);
                   return ElevatedButton(
                     onPressed: state.isLoading
                         ? null
                         : () async {
                             if (!formKey.currentState!.validate()) return;
                             await ref
-                                .read(signInNotifierProvider.notifier)
+                                .read(signInProvider.notifier)
                                 .sendPasswordReset(ctrl.text);
                             if (ctx.mounted) {
                               Navigator.pop(ctx);
