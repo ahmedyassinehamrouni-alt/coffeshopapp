@@ -7,6 +7,7 @@ import 'core/theme/app_theme.dart';
 import 'core/router/app_router.dart';
 import 'features/auth/screens/splash_screen.dart';
 import 'firebase_options.dart';
+import 'providers/auth_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

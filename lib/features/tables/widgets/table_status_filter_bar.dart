@@ -24,7 +24,7 @@ class TableFilterBar extends ConsumerWidget {
           // ── All ────────────────────────────────────────────────────────
           _FilterChip(
             label: 'All',
-            count: counts.values.fold(0, (a, b) => a + b),
+            count: counts.values.fold(0, (a, b) => a + (b ?? 0)),
             isSelected: selectedStatus == null && selectedSection == null,
             color: AppColors.caramel,
             onTap: () {
